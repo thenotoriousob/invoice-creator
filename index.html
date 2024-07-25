@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Invoice Creator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Smythe&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1 class="header">Invoice creator</h1>
+                <p class="company-greeting">Thanks for choosing GoodCorp, LLC!</p>
+            </header>
+            <main>
+                <!-- <section>
+                    <input type="text" placeholder="Enter task" name="task">
+                    <select name="price" class="task-price-dropdown">
+                        <option value="10">$10</option>
+                        <option value="20">$20</option>
+                        <option value="30">$30</option>
+                        <option value="40">$40</option>
+                        <option value="50">$50</option>
+                    </select>
+                    <button class="add-task-btn">+</button>
+                </section> -->
+                <section class="button-container">
+                    <button type="button" class="btn" id="wash-car">Wash Car: $10</button>
+                    <button type="button" class="btn" id="mow-lawn">Mow Lawn: $20</button>
+                    <button type="button" class="btn" id="pull-weeds">Pull Weeds: $30</button>
+                </section>
+                <section class="task-list-container">
+                    <div class="task-list-header-container">
+                        <h2 class="task-list-header">TASK</h2>
+                        <h2 class="task-list-header">TOTAL</h2>
+                    </div>
+                    <div class="task-list-item-container">
+                        <p class="task-list-item-name">Wash Car</p>
+                        <button class="remove-task-btn">Remove</button>
+                        <p class="task-list-item-price">$10</p>
+                    </div>
+                </section>
+                <section class="total-container">
+                    <div class="notes-container">
+                        <h2 class="task-total-header">NOTES</h2>
+                        <p class="task-accepted-methods">We accept cash, credit card, or PayPal</p>
+                    </div>
+                    <div class="total-details-container">
+                        <h2 class="task-total-header">TOTAL AMOUNT</h2>
+                        <p class="task-total-price">$10</p>
+                    </div>
+                </section>
+                <button class="btn send-invoice-btn">Send invoice</button>  
+            </main>
+        </div>
+        <script src="index.js"></script>
+    </body>
+</html>

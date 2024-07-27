@@ -1,15 +1,19 @@
+const taskForm = document.getElementById("task-form");
 const selectedTasks = [];
 
 document.addEventListener("click", (e) => {
-    if (e.target.id === "add-btn") {
-        handleAddTaskClick();
-    }
-    else if (e.target.dataset.remove) {
+    if (e.target.dataset.remove) {
         handleRemoveTaskClick(e.target.dataset.remove);
     }
     else if (e.target.id === "send-btn") {
         handleSendInvoiceClick();
     }
+});
+
+taskForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  handleAddTaskClick();
 });
 
 function Task(name, price) {
@@ -19,23 +23,25 @@ function Task(name, price) {
 
 function handleAddTaskClick() {
 
-    const taskName = document.getElementById("task").value;
-    /* Create new task object */
-    const addedTask = new Task(taskName,
-                               document.getElementById("price").value);
-    const checkIfTaskAlreadyAdded = task => task.name === taskName;
+    const taskFormData = new FormData(taskForm);
+    const taskName = taskFormData.get('task');
+    const taskPrice = taskFormData.get('price');
 
-    /* Check to see if a task with this name has already been added */
-    if (!selectedTasks.some(checkIfTaskAlreadyAdded)) {
-        selectedTasks.push(addedTask);
+    /* Don't allow the casing to make it a completely new task */
+    const addedTask = selectedTasks.find(task => task.name.toLowerCase() === taskName.toLowerCase());
+
+    if (!addedTask) {
+        selectedTasks.push(new Task(taskName, taskPrice));
     }
 
     renderAddedTasks();
+
+    taskForm.reset();
 }
 
 function handleRemoveTaskClick(taskName) {
 
-    const taskToRemove = selectedTasks.find(task => task.name === taskName);
+    const taskToRemove = selectedTasks.find(task => task.name.toLowerCase() === taskName.toLowerCase());
 
     selectedTasks.splice(selectedTasks.indexOf(taskToRemove), 1);
 
@@ -49,16 +55,16 @@ function handleSendInvoiceClick() {
         return;
     }
 
-    console.log(`You have been sent an invoice for ${calculateTotalInvoice()}`)
+    console.log(`You have been sent an invoice for £${calculateTotalInvoice()}`)
 
     selectedTasks.length = 0;
 
-    renderselectedTasks();
+    renderAddedTasks();
 }
 
 function calculateTotalInvoice() {
 
-    return selectedTasks.reduce((total, currentService) => total + currentService.price,0);
+    return selectedTasks.reduce((total, currentTask) => total + currentTask.price,0);
 }
 
 function renderAddedTasks() {
@@ -67,16 +73,16 @@ function renderAddedTasks() {
     const totalPriceEl = document.getElementById("total-price");
 
     taskListItemContainerEl.innerHTML = "";
-    selectedTasks.forEach(service => {
+    selectedTasks.forEach(task => {
         taskListItemContainerEl.innerHTML += `
         <div class="task-list-item-container">
-            <p class="task-list-item-name">${service.name}</p>
-            <button class="remove-task-btn" data-remove=${service.name}>Remove</button>
-            <p class="task-list-item-price">$${service.price}</p>
+            <p class="task-list-item-name">${task.name}</p>
+            <button class="remove-task-btn" data-remove="${task.name}">Remove</button>
+            <p class="task-list-item-price">£${task.price}</p>
         </div>
         `;
     });
 
-    totalPriceEl.innerHTML = `$${calculateTotalInvoice()}`;
+    totalPriceEl.innerHTML = `£${calculateTotalInvoice()}`;
 
 }

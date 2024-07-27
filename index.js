@@ -1,5 +1,7 @@
 const taskForm = document.getElementById("task-form");
+const colorThemeEl = document.getElementById("color-theme");
 const selectedTasks = [];
+const colorProperties = [];
 
 document.addEventListener("click", (e) => {
     if (e.target.dataset.remove) {
@@ -21,6 +23,14 @@ function Task(name, price) {
     this.price = Number(price);
 };
 
+function colorProperty(name, darkTheme, lightTheme) {
+    this.name = name;
+    this.darkTheme = darkTheme;
+    this.lightTheme = lightTheme;
+}
+
+colorThemeEl.addEventListener("click", changeColorTheme);
+
 function handleAddTaskClick() {
 
     const taskFormData = new FormData(taskForm);
@@ -32,11 +42,17 @@ function handleAddTaskClick() {
 
     if (!addedTask) {
         selectedTasks.push(new Task(taskName, taskPrice));
+
+        renderAddedTasks();
+
+        taskForm.reset();
+    } else {
+        document.getElementById(addedTask.name).parentElement.classList.add("task-item-exists");
+
+        setTimeout(() => {
+            document.getElementById(addedTask.name).parentElement.classList.remove("task-item-exists");
+        },1000)
     }
-
-    renderAddedTasks();
-
-    taskForm.reset();
 }
 
 function handleRemoveTaskClick(taskName) {
@@ -76,7 +92,7 @@ function renderAddedTasks() {
     selectedTasks.forEach(task => {
         taskListItemContainerEl.innerHTML += `
         <div class="task-list-item-container">
-            <p class="task-list-item-name">${task.name}</p>
+            <p class="task-list-item-name" id="${task.name}">${task.name}</p>
             <button class="remove-task-btn" data-remove="${task.name}">Remove</button>
             <p class="task-list-item-price">£${task.price}</p>
         </div>
@@ -86,3 +102,25 @@ function renderAddedTasks() {
     totalPriceEl.innerHTML = `£${calculateTotalInvoice()}`;
 
 }
+
+function changeColorTheme() {
+
+    const root = document.querySelector(':root');
+    const isDarkMode = colorThemeEl.checked;
+
+    colorProperties.forEach(property => {
+        root.style.setProperty(property.name, isDarkMode ? property.darkTheme : property.lightTheme);
+    });
+}
+
+function setUpColorProperties() {
+    colorProperties.push(new colorProperty("--header-background-color", "#3A69D2", "#F5F5F5"));
+    colorProperties.push(new colorProperty("--main-background-color", "#1F2937", "#FFFFFF"));
+    colorProperties.push(new colorProperty("--main-header-color", "#FFFFFF", "#2B283A"));
+    colorProperties.push(new colorProperty("--main-text-color", "#F5F5F5", "#4A4E74"));
+    colorProperties.push(new colorProperty("--secondary-header-color", "#D5D4D8", "#918E9B"));
+    colorProperties.push(new colorProperty("--slider-checked-color", "#ffffff", "#1F2937"));
+    colorProperties.push(new colorProperty("--slider-color", "#3A69D2", "#ffffff"));
+}
+
+setUpColorProperties();

@@ -23,8 +23,10 @@ html, body {
 }
 
 .container {
-    max-width: 550px;
+    max-width: 565px;
+    min-height: 720px;
     margin: 0 auto;
+    background-color: var(--dark-blue-color);
 }
 
 input, select {
@@ -37,33 +39,34 @@ h1 {
     font-size: 2.5rem;
 }
 
+.task-total-price {
+    font-size: 2.25rem;
+    text-align: right;
+}
+
 .task-list-item-price {
     font-size: 1.5rem;
     font-weight: 300;
+}
+
+input,
+.task-list-item-name,
+select,
+.fa-plus {
+    font-size: 1.25rem;
+}
+
+.send-invoice-btn {
+    font-size: 1rem;
 }
 
 h2, p {
     font-size: 0.75rem;
 }
 
-input,
-.task-list-item-name {
-    font-size: 1.25rem;
-}
-
-.btn {
-    font-size: 0.875rem;
-}
-
 .remove-task-btn {
     font-size: 0.5rem;
 }
-
-.task-total-price {
-    font-size: 2.25rem;
-    text-align: right;
-}
-
 
 /* Typography - End */
 
@@ -74,34 +77,70 @@ header {
     min-height: 190px;
     text-align: center;
     /* Stop collapsing margin */
-    padding-top: 1px;
     padding-top: 4em;
     padding-bottom: 3em;
 }
 
 /* Header styles - End */
 
-/* Main content styles - Start */
-
 main {
-    background-color: var(--dark-blue-color);
     padding: 2.5em 2.5em 3em 2.5em;
 }
 
-.button-container {
+/* Add tasks styles - Start */
+
+.enter-tasks-container {
     display: flex;
-    justify-content: space-between;
     padding-bottom: 2.75em;
 }
 
-.btn {
-    background-color: var(--light-blue-color);
-    border: 1px solid #D5D4D8;
-    color: var(--button-text-color);
-    border-radius: 0.5em;
-    padding: 1em 1.5em;
-    font-weight: 500;
-    cursor: pointer;
+input {
+    border: 2px solid #ccc;
+    padding: 0.375em 0.75em;
+    border-radius: 0.5rem 0 0 0.5em;
+    min-width: 350px;
+    outline: none;
+    margin: 0;
+    color: #888888;
+}
+
+select {
+    appearance: none;  /* Remove default styling */
+    -webkit-appearance: none;  /* Remove default styling in Webkit browsers */
+    -moz-appearance: none;
+    border: 2px solid #ccc;
+    border-left: none;
+    padding: 0.5em 0.75em;
+    background-color: var(--dropdown-color);
+    outline: none;
+    margin: 0;
+    background-image: url('angle-down-solid.svg');
+    background-repeat: no-repeat, repeat;
+    background-position: right 10px top 50%, 0 0;
+    background-size: .65em auto, 100%;
+    width: 92px;
+}
+
+.add-task-btn {
+    background-color: var(--medium-blue-color);
+    color: var(--white-color);
+    border-radius: 0 0.5em 0.5em 0;
+    padding: 1.25em;
+    border: 0;
+    margin: 0;
+}
+
+.fa-plus {
+    /* Needed so it triggers the onclick of the parent (add button) */
+    pointer-events: none;
+}
+
+/* Add tasks styles - End */
+
+/* Display tasks styles - Start */
+
+.task-list-container {
+    border-bottom: 1px solid #C3C6DB;
 }
 
 .task-list-header-container,
@@ -113,10 +152,6 @@ main {
 
 .task-list-header-container {
     margin-bottom: 1.25em;
-}
-
-.task-list-container {
-    border-bottom: 1px solid #C3C6DB;
 }
 
 .task-list-item-container {
@@ -134,6 +169,10 @@ main {
     border: none;
 }
 
+/* Display tasks styles - End */
+
+/* Total styles - Start */
+
 .total-container {
     display: flex;
     justify-content: space-between;
@@ -145,25 +184,24 @@ main {
     padding-bottom: 0.75em;
 }
 
+/* Total styles - End */
+
+/* Send invoice styles - Start */
+
 .send-invoice-btn {
     background-color: var(--medium-blue-color);
     color: var(--white-color);
     border: none;
-    border-radius: 7px;
     width: 100%;
     font-weight: 500;
+    border-radius: 0.5em;
+    padding: 1em 1.5em;
+    font-weight: 500;
+    cursor: pointer;
 }
 
-/* input {
-    padding: 0.375em 0.75em;
-    border-radius: 0.5rem, 0, 0, 0.5em;
-    min-width: 350px;
+.fa-envelope {
+    margin-right: 1em;
 }
 
-select {
-    border: 0;
-    padding: 0.1875em 0.75em;
-    background-color: var(--dropdown-color);
-} */
-
-/* Main content styles - End */
+/* Send invoice styles - End */

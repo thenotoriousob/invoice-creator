@@ -3,6 +3,7 @@
     <head>
         <title>Invoice Creator</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Smythe&display=swap" rel="stylesheet">
@@ -15,31 +16,24 @@
                 <p class="company-greeting">Thanks for choosing GoodCorp, LLC!</p>
             </header>
             <main>
-                <!-- <section>
-                    <input type="text" placeholder="Enter task" name="task">
-                    <select name="price" class="task-price-dropdown">
+                <section class="enter-tasks-container">
+                    <input type="text" placeholder="Enter task" id="task" required>
+                    <select id="price" class="task-price-dropdown">
                         <option value="10">$10</option>
                         <option value="20">$20</option>
                         <option value="30">$30</option>
                         <option value="40">$40</option>
                         <option value="50">$50</option>
                     </select>
-                    <button class="add-task-btn">+</button>
-                </section> -->
-                <section class="button-container">
-                    <button type="button" class="btn" id="wash-car">Wash Car: $10</button>
-                    <button type="button" class="btn" id="mow-lawn">Mow Lawn: $20</button>
-                    <button type="button" class="btn" id="pull-weeds">Pull Weeds: $30</button>
+                    <button class="add-task-btn" id="add-btn"><i class="fa-solid fa-plus"></i></button>
                 </section>
                 <section class="task-list-container">
                     <div class="task-list-header-container">
                         <h2 class="task-list-header">TASK</h2>
                         <h2 class="task-list-header">TOTAL</h2>
                     </div>
-                    <div class="task-list-item-container">
-                        <p class="task-list-item-name">Wash Car</p>
-                        <button class="remove-task-btn">Remove</button>
-                        <p class="task-list-item-price">$10</p>
+                    <div id="task-list">
+                    <!-- Rendered in JS -->
                     </div>
                 </section>
                 <section class="total-container">
@@ -49,10 +43,10 @@
                     </div>
                     <div class="total-details-container">
                         <h2 class="task-total-header">TOTAL AMOUNT</h2>
-                        <p class="task-total-price">$10</p>
+                        <p class="task-total-price" id="total-price">$0</p>
                     </div>
                 </section>
-                <button class="btn send-invoice-btn">Send invoice</button>  
+                <button class="send-invoice-btn" id="send-btn"><i class="fa-solid fa-envelope"></i>Send invoice</button>  
             </main>
         </div>
         <script src="index.js"></script>

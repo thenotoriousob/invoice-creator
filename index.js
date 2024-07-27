@@ -1,53 +1,45 @@
-const selectedServices = [];
-const services = [
-                  {
-                      id: "wash-car",
-                      desc: "Wash Car",
-                      price: 10
-                  },
-                  {
-                      id: "mow-lawn",
-                      desc: "Mow Lawn",
-                      price: 20
-                  },
-                  {
-                      id: "pull-weeds",
-                      desc: "Pull Weeds",
-                      price: 30
-                  }
-                ];
+const selectedTasks = [];
 
 document.addEventListener("click", (e) => {
-    if (e.target.dataset.service) {
-        handleAddServiceClick(e.target.dataset.service);
+    if (e.target.id === "add-btn") {
+        handleAddTaskClick();
     }
     else if (e.target.dataset.remove) {
-        handleRemoveServiceClick(e.target.dataset.remove);
+        handleRemoveTaskClick(e.target.dataset.remove);
     }
     else if (e.target.id === "send-btn") {
         handleSendInvoiceClick();
     }
 });
 
-function handleAddServiceClick(serviceId) {
+function Task(name, price) {
+    this.name = name;
+    this.price = Number(price);
+};
 
-    const selectedService = services.find(service => service.id === serviceId);
-    const checkIfServiceAlreadySelected = service => service.id === serviceId;
+function handleAddTaskClick() {
 
-    if (!selectedServices.some(checkIfServiceAlreadySelected)) {
-        selectedServices.push(selectedService);
+    const taskName = document.getElementById("task").value;
+    /* Create new task object */
+    const addedTask = new Task(taskName,
+                               document.getElementById("price").value);
+    const checkIfTaskAlreadyAdded = task => task.name === taskName;
+
+    /* Check to see if a task with this name has already been added */
+    if (!selectedTasks.some(checkIfTaskAlreadyAdded)) {
+        selectedTasks.push(addedTask);
     }
 
-    renderSelectedServices();
+    renderAddedTasks();
 }
 
-function handleRemoveServiceClick(serviceId) {
+function handleRemoveTaskClick(taskName) {
 
-    const selectedService = services.find(service => service.id === serviceId);
+    const taskToRemove = selectedTasks.find(task => task.name === taskName);
 
-    selectedServices.splice(selectedServices.indexOf(selectedService), 1);
+    selectedTasks.splice(selectedTasks.indexOf(taskToRemove), 1);
 
-    renderSelectedServices();
+    renderAddedTasks();
 
 }
 
@@ -59,27 +51,27 @@ function handleSendInvoiceClick() {
 
     console.log(`You have been sent an invoice for ${calculateTotalInvoice()}`)
 
-    selectedServices.length = 0;
+    selectedTasks.length = 0;
 
-    renderSelectedServices();
+    renderselectedTasks();
 }
 
 function calculateTotalInvoice() {
 
-    return selectedServices.reduce((total, currentService) => total + currentService.price,0);
+    return selectedTasks.reduce((total, currentService) => total + currentService.price,0);
 }
 
-function renderSelectedServices() {
+function renderAddedTasks() {
 
     const taskListItemContainerEl = document.getElementById("task-list");
     const totalPriceEl = document.getElementById("total-price");
 
     taskListItemContainerEl.innerHTML = "";
-    selectedServices.forEach(service => {
+    selectedTasks.forEach(service => {
         taskListItemContainerEl.innerHTML += `
         <div class="task-list-item-container">
-            <p class="task-list-item-name">${service.desc}</p>
-            <button class="remove-task-btn" data-remove=${service.id}>Remove</button>
+            <p class="task-list-item-name">${service.name}</p>
+            <button class="remove-task-btn" data-remove=${service.name}>Remove</button>
             <p class="task-list-item-price">$${service.price}</p>
         </div>
         `;

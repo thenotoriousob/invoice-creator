@@ -1,12 +1,15 @@
 :root {
     --header-background-color: #3A69D2;
     --button-background-color: #3A69D2;
+    --button-hover-background-color: #3a9ad2;
     --main-background-color: #1F2937;
     --main-header-color: #FFFFFF;
     --main-text-color: #F5F5F5;
     --secondary-header-color: #D5D4D8;
     --dropdown-color: #F0F0F0;
+    --inputs-border-color: #D5D4D8;
     --white-color: #FFFFFF;
+    --input-color: #888888;
     --main-font-family: "Inter", sans-serif;
     --slider-checked-color: #ffffff;
     --slider-color: #3A69D2;
@@ -29,19 +32,60 @@ html, body {
 
 .container {
     max-width: 565px;
+    min-width: 410px;
     min-height: 720px;
     margin: 0 auto;
     background-color: var(--main-background-color);
+    padding-bottom: 1em;
+}
+
+.enter-tasks-container,
+.total-container,
+.task-list-header-container,
+.task-list-item-container
+{
+    display: flex;
+}
+
+.total-container,
+.task-list-header-container,
+.task-list-item-container {
+    justify-content: space-between;
+}
+
+.task-list-header-container,
+.task-list-item-container {
+    gap: 10px;
 }
 
 input, select {
     line-height: 1.5;
 }
 
+header, footer {
+    text-align: center;
+}
+
+.btn,
+.remove-task-btn {
+    cursor: pointer;
+}
+
+.btn {
+    background-color: var(--button-background-color);
+    color: var(--white-color);
+    border: 0;
+}
+
+.btn:hover {
+    background-color: var(--button-hover-background-color);
+}
+
 /* Typography - Start */
 
 h1 {
     font-size: 2.5rem;
+    margin: 0 0 0.2em;
 }
 
 .task-total-price {
@@ -57,11 +101,12 @@ h1 {
 input,
 .task-list-item-name,
 select,
-.fa-plus {
+.fa-plus,
+.error {
     font-size: 1.25rem;
 }
 
-.send-invoice-btn {
+.btn {
     font-size: 1rem;
 }
 
@@ -70,7 +115,7 @@ h2, p {
 }
 
 .remove-task-btn {
-    font-size: 0.5rem;
+    font-size: 0.825rem; /* 8px seemed too small */
 }
 
 /* Typography - End */
@@ -80,10 +125,7 @@ h2, p {
 header {
     background-color: var(--header-background-color);
     min-height: 190px;
-    text-align: center;
-    /* Stop collapsing margin */
-    padding-top: 4em;
-    padding-bottom: 3em;
+    padding: 4em 0 3em;
     color: var(--main-header-color);
 }
 
@@ -95,46 +137,56 @@ main {
 
 /* Add tasks styles - Start */
 
-.enter-tasks-container {
-    display: flex;
+form {
     padding-bottom: 2.75em;
 }
 
-input {
-    border: 2px solid #ccc;
-    padding: 0.375em 0.75em;
-    border-radius: 0.5rem 0 0 0.5em;
-    min-width: 350px;
+input, select {
     outline: none;
     margin: 0;
-    color: #888888;
+    border: 2px solid var(--inputs-border-color);
+}
+
+input {
+    padding: 0.375em 0.75em;
+    border-radius: 0.5rem 0 0 0.5em;
+    width: max(65%, 200px);
+    color: var(--input-color);
+}
+
+input:focus,
+select:focus {
+    border: 2px solid var(--button-background-color);
+}
+
+.input-error {
+    border-color: red;
+}
+
+.error {
+    display: none;
+    color: red;
+    margin-top: 0.5em;
 }
 
 select {
     appearance: none;  /* Remove default styling */
     -webkit-appearance: none;  /* Remove default styling in Webkit browsers */
     -moz-appearance: none;
-    border: 2px solid #ccc;
     border-left: none;
     padding: 0.5em 0.75em;
     background-color: var(--dropdown-color);
-    outline: none;
-    margin: 0;
-    background-image: url('angle-down-solid.svg');
+    background-image: url('./images/angle-down-solid.svg');
     background-repeat: no-repeat, repeat;
     background-position: right 10px top 50%, 0 0;
     background-size: .65em auto, 100%;
-    width: 92px;
+    width: max(20%,80px);
 }
 
 .add-task-btn {
-    background-color: var(--button-background-color);
-    color: var(--white-color);
     border-radius: 0 0.5em 0.5em 0;
-    padding: 1.25em;
-    border: 0;
     margin: 0;
-    cursor: pointer;
+    width: max(15%, 50px);
 }
 
 .fa-plus {
@@ -146,19 +198,12 @@ select {
 
 /* Display tasks styles - Start */
 
-h2,.remove-task-btn {
+h2, .remove-task-btn {
     color: var(--secondary-header-color);
 }
 
 .task-list-container {
     border-bottom: 1px solid #C3C6DB;
-}
-
-.task-list-header-container,
-.task-list-item-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
 }
 
 .task-list-header-container {
@@ -169,9 +214,17 @@ h2,.remove-task-btn {
     margin-bottom: 1.5em;
 }
 
+.task-list-header,
+.task-total-header {
+    text-transform: uppercase;
+}
+
+/* Let the user know a task already exists with that name */
 .task-item-exists {
-    color: red;
-    transition: color 1s;
+    background-color: var(--header-background-color);
+    transition: backgroundColour 1s;
+    border-radius: 5px;
+    padding: 0.25em 0.5em;
 }
 
 .task-list-item-name {
@@ -180,10 +233,8 @@ h2,.remove-task-btn {
 
 .remove-task-btn {
     margin-right: auto;
-    color: #D5D4D8;
     background-color: transparent;
     border: none;
-    cursor: pointer;
 }
 
 /* Display tasks styles - End */
@@ -191,8 +242,6 @@ h2,.remove-task-btn {
 /* Total styles - Start */
 
 .total-container {
-    display: flex;
-    justify-content: space-between;
     padding-top: 0.75em;
     padding-bottom: 3em;
 }
@@ -206,15 +255,10 @@ h2,.remove-task-btn {
 /* Send invoice styles - Start */
 
 .send-invoice-btn {
-    background-color: var(--button-background-color);
-    color: var(--white-color);
-    border: none;
     width: 100%;
-    font-weight: 500;
     border-radius: 0.5em;
     padding: 1em 1.5em;
     font-weight: 500;
-    cursor: pointer;
 }
 
 .fa-envelope {
@@ -223,65 +267,64 @@ h2,.remove-task-btn {
 
 /* Send invoice styles - End */
 
-/* CSS for toggle borrowed from W3 Schools :D */
-footer {
-    text-align: center;
-}
+/* Theme switcher styles - Start */
 .switch {
-  position: relative;
-  display: inline-block;
-  margin-top: 20px;
-  width: 60px;
-  height: 34px;
+    position: relative;
+    display: inline-block;
+    margin-top: 20px;
+    width: 60px;
+    height: 34px;
 }
 
 .switch input { 
-  opacity: 0;
+    opacity: 0;
 }
 
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--slider-color);
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--slider-color);
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background: var(--slider-color);
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background: var(--slider-color);
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
 input:checked + .slider {
-  background: var(--slider-checked-color);
+    background: var(--slider-checked-color);
 }
 
 input:not(:checked) + .slider {
-background: var(--slider-checked-color);
+    background: var(--slider-checked-color);
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
 }
 
 /* Rounded sliders */
 .slider.round {
-  border-radius: 34px;
+    border-radius: 34px;
 }
 
 .slider.round:before {
-  border-radius: 50%;
+    border-radius: 50%;
 }
+
+/* Theme switcher styles - Start */

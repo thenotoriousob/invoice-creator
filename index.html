@@ -16,16 +16,15 @@
                 <p class="company-greeting">Thanks for choosing GoodCorp, LLC!</p>
             </header>
             <main>
-                <form class="enter-tasks-container" id="task-form">
-                    <input type="text" placeholder="Enter task" name="task" required>
-                    <select name="price" class="task-price-dropdown">
-                        <option value="10">£10</option>
-                        <option value="20">£20</option>
-                        <option value="30">£30</option>
-                        <option value="40">£40</option>
-                        <option value="50">£50</option>
-                    </select>
-                    <button class="add-task-btn" id="add-btn"><i class="fa-solid fa-plus"></i></button>
+                <form id="task-form">
+                    <div class="enter-tasks-container">
+                        <input type="text" placeholder="Enter task" name="task" aria-label="Enter task" id="add-task" required>
+                        <select name="price" id="price" class="task-price-dropdown" aria-label="Task price">
+                            <!-- Rendered in JS -->
+                        </select>
+                        <button class="btn add-task-btn" id="add-btn"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <p class="error" id="error"></p>
                 </form>
                 <section class="task-list-container">
                     <div class="task-list-header-container">
@@ -46,7 +45,7 @@
                         <p class="task-total-price" id="total-price">£0</p>
                     </div>
                 </section>
-                <button class="send-invoice-btn" id="send-btn"><i class="fa-solid fa-envelope"></i>Send invoice</button>  
+                <button class="btn send-invoice-btn" id="send-btn"><i class="fa-solid fa-envelope"></i>Send invoice</button>  
             </main>
             <footer>
                 <label class="switch">

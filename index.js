@@ -1,5 +1,6 @@
 const taskForm = document.getElementById("task-form");
 const colorThemeEl = document.getElementById("color-theme");
+const addTaskEl = document.getElementById("add-task");
 const selectedTasks = [];
 const colorProperties = [];
 
@@ -13,10 +14,12 @@ document.addEventListener("click", (e) => {
 });
 
 taskForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  handleAddTaskClick();
+    handleAddTaskClick();
 });
+
+colorThemeEl.addEventListener("click", changeColorTheme);
 
 function Task(name, price) {
     this.name = name;
@@ -29,15 +32,12 @@ function colorProperty(name, darkTheme, lightTheme) {
     this.lightTheme = lightTheme;
 }
 
-colorThemeEl.addEventListener("click", changeColorTheme);
-
 function handleAddTaskClick() {
 
     const taskFormData = new FormData(taskForm);
     const taskName = taskFormData.get('task');
     const taskPrice = taskFormData.get('price');
-
-    /* Don't allow the casing to make it a completely new task */
+    /* Don't allow casing to make it a completely new task */
     const addedTask = selectedTasks.find(task => task.name.toLowerCase() === taskName.toLowerCase());
 
     if (!addedTask) {
@@ -45,13 +45,9 @@ function handleAddTaskClick() {
 
         renderAddedTasks();
 
-        taskForm.reset();
+        resetForm();
     } else {
-        document.getElementById(addedTask.name).parentElement.classList.add("task-item-exists");
-
-        setTimeout(() => {
-            document.getElementById(addedTask.name).parentElement.classList.remove("task-item-exists");
-        },1000)
+        displayError(addedTask.name, "Task has already been added");
     }
 }
 
@@ -68,6 +64,7 @@ function handleRemoveTaskClick(taskName) {
 function handleSendInvoiceClick() {
 
     if (calculateTotalInvoice() === 0) {
+        displayError('', "An invoice can't be sent when there are no tasks");
         return;
     }
 
@@ -75,11 +72,12 @@ function handleSendInvoiceClick() {
 
     selectedTasks.length = 0;
 
+    resetForm();
+
     renderAddedTasks();
 }
 
 function calculateTotalInvoice() {
-
     return selectedTasks.reduce((total, currentTask) => total + currentTask.price,0);
 }
 
@@ -103,6 +101,38 @@ function renderAddedTasks() {
 
 }
 
+function displayError (taskName, error) {
+
+    const errorEl = document.getElementById("error");
+    const taskEl = document.getElementById(taskName);
+
+    errorEl.innerHTML = error;
+    errorEl.style.display = "block";
+    addTaskEl.classList.add("input-error")
+
+    // Only want to do this if its a duplicate error (when taskName is passed in)
+    if (taskEl) {
+        taskEl.parentElement.classList.add("task-item-exists");
+    }
+
+    // Remove this after 1 second
+    setTimeout(() => {
+        errorEl.style.display = "none";
+        addTaskEl.classList.remove("input-error")
+
+        if (taskEl) {
+            taskEl.parentElement.classList.remove("task-item-exists");
+        }
+    },1000)
+
+}
+
+function resetForm() {
+    taskForm.reset();
+
+    addTaskEl.focus();
+}
+
 function changeColorTheme() {
 
     const root = document.querySelector(':root');
@@ -123,4 +153,17 @@ function setUpColorProperties() {
     colorProperties.push(new colorProperty("--slider-color", "#3A69D2", "#ffffff"));
 }
 
+function displayPriceOptions() {
+
+    const prices = [10, 20, 30, 40, 50];
+    const priceEl = document.getElementById("price");
+
+    prices.forEach(price => {
+        priceEl.innerHTML += `<option value="${price}">£${price}</option>`;
+    });
+    
+}
+
 setUpColorProperties();
+
+displayPriceOptions();

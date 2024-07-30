@@ -62,7 +62,7 @@ input, select {
     line-height: 1.5;
 }
 
-header, footer {
+.invoice-header, .change-theme {
     text-align: center;
 }
 
@@ -122,7 +122,7 @@ h2, p {
 
 /* Header styles - Start */
 
-header {
+.invoice-header {
     background-color: var(--header-background-color);
     min-height: 190px;
     padding: 4em 0 3em;
@@ -268,10 +268,16 @@ h2, .remove-task-btn {
 /* Send invoice styles - End */
 
 /* Theme switcher styles - Start */
+.change-theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .75em;
+}
 .switch {
     position: relative;
     display: inline-block;
-    margin-top: 20px;
+    margin: 20px 5px;
     width: 60px;
     height: 34px;
 }
